@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="MyTestSuite" parallel="methods" thread-count="4">
+    <test name="RegressionTest">
+        <classes>
+            <class name="de.org.client.UiTest"/>
+        </classes>
+    </test>
+</suite>
