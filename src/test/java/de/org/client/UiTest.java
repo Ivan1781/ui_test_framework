@@ -3,6 +3,7 @@ package de.org.client;
 import de.org.base.BaseTest;
 import de.org.pages.login.LoginPage;
 import de.org.properties.PropertiesLoader;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -18,11 +19,5 @@ public class UiTest extends BaseTest {
     @Test
     public void test() {
         loginPage.navigateTo("https://en.wikipedia.org/wiki/Morbid_Angel");
-    }
-
-    @Test
-    public void testProps() {
-        PropertiesLoader a = new PropertiesLoader();
-        a.getProperties().forEach((x,y)-> System.out.println(x + " " + y));
     }
 }
