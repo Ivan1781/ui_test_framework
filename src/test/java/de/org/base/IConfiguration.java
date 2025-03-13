@@ -7,29 +7,37 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
+import static de.org.properties.Props.IS_REMOTE_RUN;
+
 public interface IConfiguration {
 
-    default WebDriver createDriver(String browser) {
+    default WebDriver createDriver(String browser) throws MalformedURLException {
         WebDriver driver;
 
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver(setupChromeOptions());
-                break;
-
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver(setupFirefoxOptions());
-                break;
-
-            default:
-                throw new IllegalArgumentException("Unsupported browser: " + browser);
+        if(IS_REMOTE_RUN) {
+            DesiredCapabilities caps =  new DesiredCapabilities();
+            return new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
         }
+
+        driver = switch (browser.toLowerCase()) {
+            case "chrome" -> {
+                WebDriverManager.chromedriver().setup();
+                yield new ChromeDriver(setupChromeOptions());
+            }
+            case "firefox" -> {
+                WebDriverManager.firefoxdriver().setup();
+                yield new FirefoxDriver(setupFirefoxOptions());
+            }
+            default -> throw new IllegalArgumentException("Unsupported browser: " + browser);
+        };
         return driver;
     }
 

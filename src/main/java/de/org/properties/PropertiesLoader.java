@@ -1,20 +1,25 @@
 package de.org.properties;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Properties;
 
 
 public class PropertiesLoader {
 
-    private Properties properties;
-    private static String SECRET_KEY = "1234567890123456";
+    private final static Properties properties;
+    private final static String SECRET_KEY = "1234567890123456";
 
-    public PropertiesLoader() {
-        this.properties = loadProperties();
+    static {
+        properties = loadProperties();
     }
 
     private static Properties loadProperties() {
@@ -27,8 +32,14 @@ public class PropertiesLoader {
         return properties;
     }
 
-    public String getProperty(String key) {
-        return decryptProperty(this.properties.getProperty(key));
+    public static String getProperty(String key) {
+        String prop;
+        try {
+            prop = decryptProperty(properties.getProperty(key));
+        } catch (RuntimeException a) {
+            prop = properties.getProperty(key);
+        }
+        return prop;
     }
 
     public static String decryptProperty(String data) {
@@ -46,9 +57,9 @@ public class PropertiesLoader {
             cipher.init(mode, keySpec);
             return mode == Cipher.ENCRYPT_MODE ? Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes())) :
                 new String(cipher.doFinal(Base64.getDecoder().decode(data)));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException |
+                 NoSuchPaddingException e) {
+            throw new RuntimeException(e.getMessage());
         }
-        return null;
     }
 }
