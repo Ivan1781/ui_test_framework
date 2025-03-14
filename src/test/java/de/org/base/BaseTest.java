@@ -18,8 +18,7 @@ public abstract class BaseTest implements IConfiguration {
 
     @BeforeSuite
     public void runBeforeSuite() {
-        // to change for reading the property
-        webDriver = createDriver("chrome");
+        webDriver = createDriver(System.getProperty("chrome"));
         baseSteps = new BaseSteps(webDriver);
         baseVerifications = new BaseVerifications(webDriver);
     }

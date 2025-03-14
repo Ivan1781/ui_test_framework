@@ -11,6 +11,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -19,12 +21,23 @@ import static de.org.properties.Props.IS_REMOTE_RUN;
 
 public interface IConfiguration {
 
-    default WebDriver createDriver(String browser) throws MalformedURLException {
+    default WebDriver createDriver(String browser) {
         WebDriver driver;
 
         if(IS_REMOTE_RUN) {
-            DesiredCapabilities caps =  new DesiredCapabilities();
-            return new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
+            ChromeOptions options =  new ChromeOptions();
+            options.addArguments("start-maximized");
+            options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.DISMISS);
+            options.setBrowserVersion("latest");
+//            options.setCapability("enableVNC", true);
+//            options.setCapability("enableVideo", true);
+            URL url = null;
+            try {
+                url = new URI("http://localhost:4444/wd/hub").toURL();
+            } catch (URISyntaxException | MalformedURLException e) {
+                e.getMessage();
+            }
+            return new RemoteWebDriver(url, options);
         }
 
         driver = switch (browser.toLowerCase()) {
