@@ -1,5 +1,6 @@
 package de.org.base;
 
+import de.org.properties.PropertiesLoader;
 import de.org.steps.BaseSteps;
 import de.org.verifications.BaseVerifications;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +19,7 @@ public abstract class BaseTest implements IConfiguration {
 
     @BeforeSuite
     public void runBeforeSuite() {
-        webDriver = createDriver(System.getProperty("chrome"));
+        webDriver = createDriver(PropertiesLoader.getProperty("browser"));
         baseSteps = new BaseSteps(webDriver);
         baseVerifications = new BaseVerifications(webDriver);
     }

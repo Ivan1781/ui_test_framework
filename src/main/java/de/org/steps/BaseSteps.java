@@ -1,5 +1,6 @@
 package de.org.steps;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 
 public class BaseSteps {
@@ -10,6 +11,7 @@ public class BaseSteps {
         this.webDriver = webDriver;
     }
 
+    @Step
     public void login() {
 
     }
