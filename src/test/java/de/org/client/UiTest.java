@@ -12,12 +12,12 @@ import org.testng.annotations.Test;
 public class UiTest extends BaseTest {
 
     private LoginPage loginPage;
-    private BaseSteps baseSteps;
 
     @BeforeClass
     public void precondition() {
+        System.out.println("sasasasasasasas");
+        System.out.println(webDriver.toString());
         loginPage = new LoginPage(webDriver);
-        baseSteps = new BaseSteps(webDriver);
     }
 
     @Test

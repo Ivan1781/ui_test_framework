@@ -1,15 +1,15 @@
 package de.org.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class BasePage {
+
     protected final By elem1 = By.xpath("//*[@...='....']");
     protected final By elem2 = By.xpath("//*[@...='....']");
     protected final By elem3 = By.xpath("//*[@...='....']");
@@ -17,10 +17,13 @@ public class BasePage {
 
     protected WebDriver webDriver;
     protected WebDriverWait wait;
+    protected Actions actions;
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) webDriver;
 
     public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
         wait = new WebDriverWait(this.webDriver, Duration.ofSeconds(10));
+        Actions actions = new Actions(this.webDriver);
     }
 
     public void navigateTo(String url) {
@@ -38,10 +41,6 @@ public class BasePage {
     public void waitForClickable(By element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
-
-//    public boolean isPresent(By element) {
-//
-//    }
 
     public void type(By locator, String text) {
         waitForVisibility(locator);
@@ -61,4 +60,21 @@ public class BasePage {
                 .ignoring(ElementNotInteractableException.class);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+
+    public void hoverToTheElement(By element) {
+       WebElement webElement = find(element);
+       actions.moveToElement(webElement).perform();
+    }
+
+    public void selectByTextInDropdown(By element, String text) {
+        WebElement dropdownElement = find(element);
+        Select select = new Select(dropdownElement);
+        select.selectByValue(text);
+    }
+
+    public void scrollToElement(By element) {
+        WebElement webElement = find(element);
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", webElement);
+    }
+
 }
