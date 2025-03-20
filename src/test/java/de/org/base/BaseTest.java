@@ -1,7 +1,7 @@
 package de.org.base;
 
-import de.org.driverFactory.LocalDriver;
-import de.org.driverFactory.RemoteDriver;
+import de.org.driverfactory.LocalDriver;
+import de.org.driverfactory.RemoteDriver;
 import de.org.properties.PropertiesLoader;
 import de.org.steps.BaseSteps;
 import de.org.verifications.BaseVerifications;

@@ -2,6 +2,7 @@ package de.org.pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,10 +11,11 @@ import java.time.Duration;
 
 public class BasePage {
 
-    protected final By elem1 = By.xpath("//*[@...='....']");
-    protected final By elem2 = By.xpath("//*[@...='....']");
-    protected final By elem3 = By.xpath("//*[@...='....']");
-    protected final By elem4 = By.xpath("//*[@...='....']");
+    @FindBy(xpath = "//*[@...='....']")
+    protected WebElement elem1;
+
+    @FindBy(xpath = "//*[@...='....']")
+    protected WebElement elem2;
 
     protected WebDriver webDriver;
     protected WebDriverWait wait;
@@ -23,7 +25,7 @@ public class BasePage {
     public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
         wait = new WebDriverWait(this.webDriver, Duration.ofSeconds(10));
-        Actions actions = new Actions(this.webDriver);
+        actions = new Actions(this.webDriver);
     }
 
     public void navigateTo(String url) {
@@ -34,19 +36,18 @@ public class BasePage {
         webDriver.close();
     }
 
-    public void waitForVisibility(By element) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+    public void waitForVisibility(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf (element));
     }
 
-    public void waitForClickable(By element) {
+    public void waitForClickable(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void type(By locator, String text) {
-        waitForVisibility(locator);
-        WebElement webElement = webDriver.findElement(locator);
-        webElement.clear();
-        webElement.sendKeys(text);
+        WebElement element = this.find(locator);
+        element.clear();
+        element.sendKeys(text);
     }
 
 

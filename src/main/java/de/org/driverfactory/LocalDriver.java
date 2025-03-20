@@ -1,4 +1,4 @@
-package de.org.driverFactory;
+package de.org.driverfactory;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
