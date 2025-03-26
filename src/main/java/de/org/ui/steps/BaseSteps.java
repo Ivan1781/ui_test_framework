@@ -1,4 +1,4 @@
-package de.org.steps;
+package de.org.ui.steps;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package de.org.driverfactory;
+package de.org.ui.driverfactory;
 
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package de.org.verifications;
+package de.org.ui.verifications;
 
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.WebDriver;

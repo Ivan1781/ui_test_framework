@@ -1,17 +1,17 @@
 package de.org.base;
 
-import de.org.driverfactory.LocalDriver;
-import de.org.driverfactory.RemoteDriver;
-import de.org.properties.PropertiesLoader;
-import de.org.steps.BaseSteps;
-import de.org.verifications.BaseVerifications;
+import de.org.ui.driverfactory.LocalDriver;
+import de.org.ui.driverfactory.RemoteDriver;
+import de.org.common.properties.PropertiesLoader;
+import de.org.ui.steps.BaseSteps;
+import de.org.ui.verifications.BaseVerifications;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
-import static de.org.properties.Props.IS_REMOTE_RUN;
+import static de.org.common.properties.Props.IS_REMOTE_RUN;
 @Log4j2
 public abstract class BaseTest {
 

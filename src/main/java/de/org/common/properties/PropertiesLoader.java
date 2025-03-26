@@ -1,4 +1,4 @@
-package de.org.properties;
+package de.org.common.properties;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

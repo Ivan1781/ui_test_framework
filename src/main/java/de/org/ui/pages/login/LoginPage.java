@@ -1,6 +1,6 @@
-package de.org.pages.login;
+package de.org.ui.pages.login;
 
-import de.org.pages.BasePage;
+import de.org.ui.pages.BasePage;
 import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {

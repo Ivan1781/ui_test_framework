@@ -1,6 +1,6 @@
 package de.org.client;
 
-import de.org.properties.PropertiesLoader;
+import de.org.common.properties.PropertiesLoader;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 

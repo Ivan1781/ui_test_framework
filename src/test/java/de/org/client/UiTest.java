@@ -1,8 +1,7 @@
 package de.org.client;
 
 import de.org.base.BaseTest;
-import de.org.pages.login.LoginPage;
-import de.org.steps.BaseSteps;
+import de.org.ui.pages.login.LoginPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -15,8 +14,6 @@ public class UiTest extends BaseTest {
 
     @BeforeClass
     public void precondition() {
-        System.out.println("sasasasasasasas");
-        System.out.println(webDriver.toString());
         loginPage = new LoginPage(webDriver);
     }
 

@@ -17,6 +17,7 @@ dependencies {
     implementation  group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.29.0'
     implementation group: 'org.assertj', name: 'assertj-core', version: '3.27.3'
     implementation 'io.qameta.allure:allure-testng:2.21.0'
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.5.1'
 }
 
 test {

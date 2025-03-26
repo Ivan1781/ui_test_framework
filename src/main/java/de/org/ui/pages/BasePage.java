@@ -1,4 +1,4 @@
-package de.org.pages;
+package de.org.ui.pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
