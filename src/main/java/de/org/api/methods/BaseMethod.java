@@ -3,13 +3,17 @@ package de.org.api.methods;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 
 import java.nio.file.Paths;
+import java.util.Objects;
 
+@Log4j2
 public class BaseMethod {
 
     protected RequestSpecification request;
@@ -35,8 +39,9 @@ public class BaseMethod {
 
     private String readFile(String path) {
         try {
-            return new String(Files.readAllBytes(Paths.get(path)));
-        } catch (IOException e) {
+            ClassLoader classLoader = BaseMethod.class.getClassLoader();
+            return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(classLoader.getResource(path)).toURI())));
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
@@ -48,7 +53,11 @@ public class BaseMethod {
     }
 
     public Response callAPI() {
-        return send(this.request, this.apiUrl, this.methodType);
+        addBody();
+        Response response = send(this.request, this.apiUrl, this.methodType);
+        log.info(String.format("%s %s %s", this.methodType, this.apiUrl, this.request));
+        log.info(response.getBody().print());
+        return response;
     }
 
     private Response send(RequestSpecification rq, String url, String method) {

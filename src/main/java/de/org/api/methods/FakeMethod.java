@@ -1,7 +1,5 @@
 package de.org.api.methods;
 
-import org.apache.http.Header;
-
 public class FakeMethod extends BaseMethod {
 
     public FakeMethod() {

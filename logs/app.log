@@ -1,0 +1,13 @@
+2025-03-31 00:53:47 [Test worker] INFO  de.org.api.methods.BaseMethod - POST https://jsonplaceholder.typicode.com/posts io.restassured.internal.RequestSpecificationImpl@1b881f1f
+2025-03-31 00:53:47 [Test worker] INFO  de.org.api.methods.BaseMethod - {
+  "id": 101
+}
+2025-03-31 00:55:15 [Test worker] INFO  de.org.api.methods.BaseMethod - POST https://jsonplaceholder.typicode.com/posts io.restassured.internal.RequestSpecificationImpl@7607340f
+2025-03-31 00:55:15 [Test worker] INFO  de.org.api.methods.BaseMethod - {
+  "id": 101
+}
+2025-03-31 01:00:19 [Test worker] INFO  de.org.api.methods.BaseMethod - POST https://jsonplaceholder.typicode.com/posts io.restassured.internal.RequestSpecificationImpl@34ff08c6
+2025-03-31 01:00:19 [Test worker] INFO  de.org.api.methods.BaseMethod - {
+  "aaa": "bbb",
+  "id": 101
+}

@@ -12,7 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import static de.org.common.properties.Props.IS_REMOTE_RUN;
-@Log4j2
+
 public abstract class BaseTest {
 
     protected WebDriver webDriver;
