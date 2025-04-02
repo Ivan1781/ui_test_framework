@@ -1,5 +1,6 @@
 package de.org.api.methods;
 
+import de.org.common.properties.Props;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -12,6 +13,7 @@ import java.nio.file.Files;
 
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Properties;
 
 @Log4j2
 public class BaseMethod {
@@ -19,13 +21,33 @@ public class BaseMethod {
     protected RequestSpecification request;
     protected String methodType;
     private final String requestPayload;
-    private String apiUrl;
+//    private String apiUrl;
+    private Properties properties;
+    protected String methodPath;
 
-    public BaseMethod(String methodType, String apiUrl, String requestPayload) {
+    public BaseMethod(String methodType, String url, String requestPayload) {
         this.requestPayload = readFile(requestPayload);
         this.request = RestAssured.given();
-        this.apiUrl = apiUrl;
+        this.methodPath = url;
+        replaceUrlPlaceholder("base_url", Props.BASE_URL );
         this.methodType = methodType;
+        this.initProperties();
+    }
+
+    public Response callAPI() {
+        addBody();
+        Response response = send(this.request, this.methodPath, this.methodType);
+//        log.info(String.format("%s %s %s", this.methodType, this.apiUrl, this.request));
+        log.info(response.getBody().print());
+        return response;
+    }
+
+    public void replaceUrlPlaceholder(String placeholder, String value) {
+        if (value != null) {
+            this.methodPath = this.methodPath.replace("${" + placeholder + "}", value);
+        } else {
+            this.methodPath = this.methodPath.replace("${" + placeholder + "}", "");
+        }
     }
 
     public void setHeader(String key, Object value) {
@@ -35,6 +57,16 @@ public class BaseMethod {
     public void validateResponseBody(Response response, String status) {
         String actualResponse = response.getBody().asString();
         Assert.assertTrue(actualResponse.contains(status), "Response does not match expected output!");
+    }
+
+    public void addProperty(String key, Object value) {
+        Objects.requireNonNull(this.properties, "Properties are not initialized");
+        this.properties.put(key, value);
+    }
+
+    protected void replaceIdPlaceholderInUrl(String id) {
+        replaceUrlPlaceholder("id", id);
+        addProperty("id", id);
     }
 
     private String readFile(String path) {
@@ -47,17 +79,9 @@ public class BaseMethod {
     }
 
     private void addBody() {
-        if(this.requestPayload != null) {
+        if (this.requestPayload != null) {
             this.request.body(this.requestPayload);
         }
-    }
-
-    public Response callAPI() {
-        addBody();
-        Response response = send(this.request, this.apiUrl, this.methodType);
-        log.info(String.format("%s %s %s", this.methodType, this.apiUrl, this.request));
-        log.info(response.getBody().print());
-        return response;
     }
 
     private Response send(RequestSpecification rq, String url, String method) {
@@ -66,5 +90,9 @@ public class BaseMethod {
             case "POST" -> rq.post(url);
             default -> throw new RuntimeException("Unknown method");
         };
+    }
+
+    private void initProperties() {
+        this.properties = new Properties();
     }
 }
