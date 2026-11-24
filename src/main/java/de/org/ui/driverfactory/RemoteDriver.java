@@ -20,12 +20,11 @@ public class RemoteDriver implements DriverFactoryMethod {
         options.setBrowserVersion("latest");
 //            options.setCapability("enableVNC", true);
 //            options.setCapability("enableVideo", true);
-        URL url = null;
         try {
-            url = new URI("http://localhost:4444/wd/hub").toURL();
+            URL url = new URI("http://localhost:4444/wd/hub").toURL();
+            return new RemoteWebDriver(url, options);
         } catch (URISyntaxException | MalformedURLException e) {
-            e.getMessage();
+            throw new RuntimeException("Failed to create remote driver", e);
         }
-        return new RemoteWebDriver(url, options);
     }
 }

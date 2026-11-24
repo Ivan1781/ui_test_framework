@@ -5,23 +5,33 @@ import de.org.ui.pages.login.LoginPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class UiTest extends BaseTest {
 
-    private LoginPage loginPage;
+    private final ThreadLocal<LoginPage> LOGIN_PAGE = new ThreadLocal<>();
 
-    @BeforeClass
+    @BeforeMethod
     public void precondition() {
-        loginPage = new LoginPage(webDriver);
+        LOGIN_PAGE.set(new LoginPage(webDriver()));
+    }
+
+    @AfterMethod
+    public void runAfter() {
+        LOGIN_PAGE.remove();
+    }
+
+    public LoginPage loginPage() {
+        return LOGIN_PAGE.get();
     }
 
     @Test
     @Description()
     @Severity(SeverityLevel.CRITICAL)
     public void test() {
-        baseSteps.login();
-        loginPage.navigateTo("https://en.wikipedia.org/wiki/Morbid_Angel");
+        baseSteps().login();
+        loginPage().navigateTo("https://en.wikipedia.org/wiki/Morbid_Angel");
     }
 }

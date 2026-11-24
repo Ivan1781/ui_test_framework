@@ -20,10 +20,12 @@ public class BasePage {
     protected WebDriver webDriver;
     protected WebDriverWait wait;
     protected Actions actions;
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) webDriver;
+
+    JavascriptExecutor jsExecutor;
 
     public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
+        this.jsExecutor = (JavascriptExecutor) webDriver;
         wait = new WebDriverWait(this.webDriver, Duration.ofSeconds(10));
         actions = new Actions(this.webDriver);
     }
@@ -50,15 +52,7 @@ public class BasePage {
         element.sendKeys(text);
     }
 
-
     public WebElement find(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
-    public WebElement find2(By locator) {
-        wait.withTimeout(Duration.ofSeconds(3))
-                .pollingEvery(Duration.ofSeconds(3))
-                .ignoring(ElementNotInteractableException.class);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
